@@ -1,0 +1,697 @@
+@charset "utf-8";
+
+body {
+    font-family: 'Open Sans', 'Noto Sans JP', sans-serif;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #f7f7f7;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+.header{
+    width: 100%;
+    height: 8vh;
+    margin: auto;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffffaf;
+}
+.header-logo{
+    width: 10%;
+    padding: 1%;
+}
+.header-logo img{
+    width: 100%;
+}
+
+
+
+/*========= ナビゲーションのためのCSS ===============*/
+
+#g-nav{
+    /*position:fixed;にし、z-indexの数値を大きくして前面へ*/
+    position:fixed;
+    z-index: 999;
+    /*ナビのスタート位置と形状*/
+	top: 0;
+    right: -50%;
+	width:25%;
+    height: 100vh;/*ナビの高さ*/
+	background:#dededecb;
+    /*動き*/
+	transition: all 0.6s;
+}
+
+/*アクティブクラスがついたら位置を0に*/
+#g-nav.panelactive{
+    right: 0;
+}
+
+/*ナビゲーション*/
+#g-nav ul {
+    /*ナビゲーション天地中央揃え*/
+    position: absolute;
+    z-index: 99;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    padding: 0;
+}
+
+/*リストのレイアウト設定*/
+
+#g-nav li{
+	list-style: none;
+    text-align: left; 
+    font-size: 24px;
+    line-height: 2em;
+}
+
+#g-nav li a{
+    position: relative;
+	color: #333;
+	text-decoration: none;
+	padding:10px;
+	display: block;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-weight: bold;
+}
+#g-nav li a:hover{
+    color: #888;
+    /* transition: .3s; */
+}
+#g-nav li a::after{
+    content: '';
+    /*絶対配置で線の位置を決める*/
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    /*線の形状*/
+    width: 100%;
+    height: 2px;
+    background:#888;
+    /*アニメーションの指定*/
+    transition: all .3s;
+    transform: scale(0, 1);/*X方向0、Y方向1*/
+    transform-origin: left top;/*左上基点*/
+}
+#g-nav li a:hover::after{
+    transform: scale(1, 1);/*X方向にスケール拡大*/
+}
+
+
+
+/*========= ボタンのためのCSS ===============*/
+.openbtn{
+	position:fixed;
+    z-index: 9999;/*ボタンを最前面に*/
+	top: 1%;
+	right: 3%;
+	cursor: pointer;
+    width: 70px;
+    height:50px;
+}
+	
+/*×に変化*/	
+.openbtn span{
+    display: inline-block;
+    transition: all .4s;
+    position: absolute;
+    left: 14px;
+    height: 3px;
+    border-radius: 2px;
+	background-color: #666;
+  	width: 45%;
+  }
+
+.openbtn span:nth-of-type(1) {
+	top:15px;	
+}
+
+.openbtn span:nth-of-type(2) {
+	top:23px;
+}
+
+.openbtn span:nth-of-type(3) {
+	top:31px;
+}
+
+.openbtn.active span:nth-of-type(1) {
+    top: 18px;
+    left: 18px;
+    transform: translateY(6px) rotate(-45deg);
+    width: 30%;
+}
+
+.openbtn.active span:nth-of-type(2) {
+	opacity: 0;
+}
+
+.openbtn.active span:nth-of-type(3){
+    top: 30px;
+    left: 18px;
+    transform: translateY(-6px) rotate(45deg);
+    width: 30%;
+}
+
+
+/* main */
+  
+/* MainVisual */
+.MainVisual{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 8vh;
+}
+.MainVisual img{
+    width: 100%;
+}
+
+/* ナビコンテンツ */
+.nav-container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 90vh;
+    top: 120vh;
+    right: 5vw;
+    left: 5vw;
+    background-color: #f7f7f7;
+    overflow: hidden;
+
+    @media (min-width: 1024px) {
+        flex-direction: row;
+    }
+}
+.content-title{
+    height: 60vh;
+    padding: 40px;
+    position: relative;
+    border-radius: 30px;
+    margin: 1vw;
+    box-shadow: -4px -4px 8px #f0f0f0, 4px 4px 8px rgb(0 0 0 / 24%);
+    flex: calc(100vh / 5) 1 1;
+    background-size: cover;
+    overflow: hidden;
+    filter: saturate(90%);
+    transition: 0.5s;
+}
+
+.content-title::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+.content-title:not(:last-child){
+    border-bottom: 1px solid #ccc;
+    animation: borderPulse 5% infinite;
+
+    @media (min-width: 1024px){
+        border-right: 1px solid #ccc;
+        border-bottom: none;
+    }
+}
+.content-title:hover{
+    flex-basis: 40%;
+    filter: saturate(120%);
+    display: flex;
+    justify-content: center;
+
+    @media (min-width: 1024px){
+    flex-basis: 75%;
+    }
+
+    .content-item{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.content-title h1{
+    
+    font-size: 3rem;
+    border-radius: 30px;
+    margin: 30px;
+    transform-origin: center;
+    transform: rotate(90deg);
+    transition: 0.5s;
+}
+.content-title:hover h1{
+    height: 3rem;
+    width: 60%;
+    font-size: 2rem;
+    text-align: center;
+    margin: 0;
+    transform: rotate(0);
+    z-index: 1;
+}
+.content-title:nth-child(1){
+    background:#ffffff;
+    background-position: 72% 35%;
+}
+.content-title:nth-child(2){
+    background-color:#ffffff;
+    background-position: 60% 8%;
+}
+.content-title:nth-child(3){
+    background-color:#ffffff;
+    background-position: 52% 8%;
+}
+.content-title:nth-child(4){
+    background-color:#ffffff;
+    background-position: 45% 8%;
+}
+.content-title:nth-child(5){
+    background-color:#ffffff;
+    background-position: 45% 25%;
+}
+
+.content-item{
+    position: absolute;
+    display: flex;
+    margin-top: 15%;
+    width: 80%;
+    height: 70%;
+    opacity: 0;
+    transition: 1%; 
+    transform: translateX(50%);
+}
+.content-item img{
+    width: 40%;
+    height: 40%;
+    border-radius: 10px;
+}
+
+/*== ボタン共通設定 */
+.more-btn{
+    /*アニメーションの起点とするためrelativeを指定*/
+    position: absolute;
+    bottom: 0;
+    right: 0;
+	overflow: hidden;
+    /*ボタンの形状*/
+    width: 20%;
+	text-decoration: none;
+	display: inline-block;
+   	border: 1px solid #555;/* ボーダーの色と太さ */
+    border-radius: 25px;
+    padding: 10px 30px;
+    text-align: center;
+    outline: none;
+    /*アニメーションの指定*/   
+    transition: ease .2s;
+}
+/*ボタン内spanの形状*/
+.more-btn span {
+	position: relative;
+	z-index: 12;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+	color:#333;
+}
+.more-btn:hover span{
+	color:#fff;
+}
+/*hoverした際の形状*/
+.more-btn:hover{
+    background-color: #333;
+    z-index: 10;
+}
+
+
+
+/* プロフィール */
+.profile-text{
+    width: 70%;
+    height: auto;
+}
+.profile-text p{
+    margin: 0;
+    margin-left: 1.7rem;
+    line-height: 1.5em;
+    font-size: 1vw;
+    color: #333;
+}
+
+/* ニュース */
+.news-contents{
+    padding-left: 0;
+}
+.news-contents li{
+    list-style: none; 
+    font-size: 0.8vw;
+    line-height: 2em;
+    margin-left: 0;
+}
+.news-contents li a{
+    color: #333;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/* discography */
+.disco-img{
+    width: 50%;
+    height: 60%;
+}
+.disco-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.disco-text{
+    width: 50%;
+}
+.disco-text h2,p,ol,li{
+    margin: 0;
+    margin-left: 2rem;
+    color: #333;
+    line-height: 2em;
+    font-size: 1vw;
+}
+.disco-text ol{
+    padding-left: 0;
+}
+
+/* biography */
+.bio-contents{
+    padding-left: 0;
+}
+.bio-contents li{
+    list-style: none; 
+    font-size: 0.9vw;
+    line-height: 2em;
+    margin-left: 0;
+}
+.bio-contents li p{
+    color: #333;
+	text-decoration: none;
+}
+
+
+/* video */
+.video-content{
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+}
+.video a{
+    padding: 0;
+    align-items: center;
+}
+.video a img{
+    min-width:100%;
+}
+.video-info h2{
+    margin: 2% 0;
+}
+.video-info p{
+    margin: 0;
+    line-height: 1em;
+}
+
+
+/* other page */
+.page-title{
+    font-size: 2vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+/* profile page */
+.mainvisual-profile{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.mainvisual-profile img{
+    width: 50%;
+}
+.text-profile{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+.text-profile p{
+    width: 70%;
+    font-size: 1vw;
+}
+
+
+
+/* news page */
+.news-page-contents{
+    width: 70vw;
+    margin: 5vh 15vw;
+}
+.news-container{
+    margin: 4vh;
+}
+.news-container a{
+    text-decoration: none;
+}
+.news-container .date{
+    font-weight: bold;
+    font-size: 1.2vw
+}
+.news-container .title{
+    font-size: 1.2vw;
+}
+
+
+
+/* biography page*/
+/*タイムライン全体の設定*/
+.timeline{
+	max-width: 800px;
+	width:100%;
+	margin:50px auto 120px auto;
+	padding:0 30px;
+}
+
+.timeline li{
+    /*線の起点とするためrelativeを設定*/
+    position: relative;
+	list-style: none;
+	padding: 0 0 20px 0;
+}
+
+.timeline dl{
+	margin:0 0 20px 3em;
+}
+
+
+/*絶対配置で線を設定*/
+.border-line {
+    /*線の位置*/
+	position: absolute;
+	left: 0.6vw;
+	top:0;
+	width:2.5px;/*線の太さ*/
+	height:0;/*はじめは高さを0に*/
+	background: #ccc;
+}
+
+/*タイムラインの見出し横の丸の位置と形状*/
+.timeline li::after{
+	content:'';
+	position: absolute;
+	top:0;
+	left:0;
+	width:20px;
+	height: 20px;
+	background:#666;
+	border-radius: 50%;
+}
+
+
+
+/* discography page*/
+.music-gallery{
+    padding: 0 10vw;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+}
+
+.music-container{
+    position: relative;
+    width: 20vw;
+    height: 20vw;
+    margin: 5vw 0;
+    transform: translateY(0);
+    transition: 0.3s;
+}
+
+.music-container:hover .music-img-area{
+    transform: translateY(-40%);
+    transition: .3s;
+}
+
+.music-container:hover .music-text-area{
+    transform: translateY(30%);
+    opacity: 1;
+    transition: .3s;
+}
+
+.music-img-area{
+    z-index: 2;
+    position: absolute;
+    transform: translateY(0);
+    transition: .3s
+}
+.music-img-area img{
+    width: 100%;
+}
+
+.music-text-area{
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    transform: translateY(0);
+    transition: .3s;
+    opacity: 0;
+}
+.music-text-area p, .music-text-area ol, .music-text-area li{
+    position: relative;
+    top: 40%;
+    left: 30%;
+    transform: translate(-40%);
+}
+.music-text-area ol, .music-text-area li{
+    line-height: 1.2em;
+    margin-left: 10%;
+}
+.music-text-area p{
+    line-height: 1.5em;
+}
+
+.music-text-area ol {
+    list-style-position: inside; 
+}
+
+.music-text-area .music-title{
+    font-weight: bold;
+    font-size: large;
+}
+
+
+/* video page */
+.wrapper-video{
+    width: 80vw;
+    margin: 10vh 10vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+  /*　画像の拡大＋テキスト出現　*/
+
+.zoomInText{/*テキストの基点となる位置を定義*/
+	position: relative;
+    margin: 5vw 5vw 1vw 5vw;
+}
+
+.zoomInText span.mask{
+	position: relative;
+	transition: .3s ease-in-out;/*移り変わる速さを変更したい場合はこの数値を変更*/
+	display: block;/*画像をくくるspanタグをブロック要素にする*/
+    line-height: 0;/*行の高さを0にする*/
+    overflow:hidden;/*拡大してはみ出る要素を隠す*/
+}
+
+.zoomInText:hover span.mask::before{/*hoverした時の変化*/
+	content:"";
+	position: absolute;
+	z-index:2;
+	top:10px;
+	left:10px;
+	width: calc(100% - 20px);
+    height: calc(100% - 20px);
+	background:rgba(0,0,0,0.5);/*背景色*/
+}
+
+.zoomInText img{
+    width: 30vw;
+	transform: scale(1);
+	filter: blur(0);
+	transition: .3s ease-in-out;/*移り変わる速さを変更したい場合はこの数値を変更*/
+}
+
+.zoomInText:hover img{/*hoverした時の変化*/
+	transform: scale(1.2);/*拡大の値を変更したい場合はこの数値を変更*/
+	filter: blur(2px);/*ぼかし具合を変更したい場合はこの数値を変更*/
+}
+
+.zoomInText span.cap{
+	opacity:0;
+	transition: .5s ease-in-out;/*移り変わる速さを変更したい場合はこの数値を変更*/
+	position: absolute;
+	z-index:3;/*テキストを前面に出す*/
+	top: 50%;
+    left: 50%;
+	transform: translate(-50%,-50%);
+    line-height: 1.2;/*行の高さを1.5にする*/
+}
+span.cap h3, span.cap p{
+    color: #fff;
+    margin-left: 0;
+    line-height: 1.2;
+}
+
+
+.zoomInText:hover span.cap{/*hoverした時の変化*/
+	opacity:1;
+}
+
+
+/* footer */
+.footer {
+    top: 200vh;
+    width: 100%;
+    height: 10vh;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 40px;
+    background-color: #f7f7f7;
+}
+.footer-second {
+    bottom: 5vh;
+    width: 100%;
+    height: 10vh;
+    background-color: #f7f7f7;
+}
+.footer-content{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.sns{
+    display: flex;
+    justify-content: center;
+}
+.sns-item{
+    width: 34px;
+    margin: 20px;
+}
+.sns-item img{
+ width: 100%;
+}
+small{
+text-align: center;
+margin-bottom: 5vh;
+}
+
